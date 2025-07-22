@@ -2,6 +2,7 @@ package com.booknet.backend.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -41,7 +42,20 @@ public class SecurityConfig {
                         // Endpoints públicos (sin autenticación)
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/api/public/**").permitAll()
+                        
+                        // Endpoints de desarrollo sin autenticación (DEBE IR ANTES que /api/users/**)
+                        .requestMatchers("/api/dev/**").permitAll()
+                        .requestMatchers(HttpMethod.PUT, "/api/dev/users/*/role").permitAll()
 
+                        // Endpoints de libros públicos (lectura)
+                        .requestMatchers(HttpMethod.GET, "/api/books").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/books/**").permitAll()
+                        
+                        // Endpoints temporales para pruebas (sin autenticación)
+                        .requestMatchers("/api/books/force-recalculate").permitAll()
+                        .requestMatchers("/api/books/check-ratings-status").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/books/clean-database").permitAll()
+                        
                         // Endpoints que requieren autenticación y rol ADMIN
                         .requestMatchers("/api/users/**").hasRole("ADMIN")
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
