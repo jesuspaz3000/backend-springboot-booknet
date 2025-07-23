@@ -108,6 +108,7 @@ public class SecurityConfig {
             // Fallback a IPs conocidas
             allowedOrigins.add("http://18.229.124.33:3000");
             allowedOrigins.add("http://54.232.248.38:3000");
+            allowedOrigins.add("http://54.94.55.193:3000");
         }
 
         // Mostrar todas las IPs permitidas en los logs
